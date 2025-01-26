@@ -8,7 +8,7 @@ This repository focuses on the course **EC530 (Software Engineering Principles)*
 
 ### Overview
 
-This project calculates the shortest distance between two sets of geographical points using the **Haversine formula**. It supports:
+The file dist_final_multi_point2multi_point.py calculates the shortest distance between two sets of geographical points using the **Haversine formula**. It supports:
 - Reading geographical data from CSV files.
 - Validating latitude and longitude values.
 - Converting coordinates in Degrees-Minutes-Seconds (DMS) format to decimal degrees.
