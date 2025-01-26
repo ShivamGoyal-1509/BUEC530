@@ -114,6 +114,3 @@ find_shortest_distance_from_csv(file1, file2)
 Author
 
 Shivam Goyal
-For any queries, feel free to contact me.
-
-This is formatted and ready to paste into a GitHub `README.md` file. It is concise and excludes examples while focusing on functionality, setup, and usage instructions.
