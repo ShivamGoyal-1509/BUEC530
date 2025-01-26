@@ -40,16 +40,9 @@ Usage
 1. Preparing CSV Files
 	•	File Format: CSV files should contain two columns: latitude and longitude.
 	•	Example CSV:
-
-latitude,longitude
-52.5200,13.4050
-48.8566,2.3522
-41.9028,12.4964
-
-
 	•	If column names are missing, the program will automatically assign latitude and longitude.
 
-2. Running the Script
+3. Running the Script
 
 Save the Python script as shortest_distance.py, then run it:
 
