@@ -46,3 +46,74 @@ This project calculates the shortest distance between two sets of geographical p
 To install the required dependencies, run:
 ```bash
 pip install pandas
+
+Usage
+
+1. Preparing CSV Files
+	•	Ensure CSV files contain two columns: latitude and longitude.
+	•	If column names are missing, the program will automatically assign them.
+
+2. Running the Script
+
+Save the Python script as shortest_distance.py, then modify and call the function:
+
+closest_pair, distance = find_shortest_distance_from_csv('file1.csv', 'file2.csv')
+print(f"The closest pair of points is {closest_pair} with a distance of {distance:.2f} km.")
+
+3. DMS Conversion
+
+Convert Degrees-Minutes-Seconds (DMS) to decimal degrees:
+
+latitude_decimal = dms_to_decimal(degrees, minutes, seconds)
+longitude_decimal = dms_to_decimal(degrees, minutes, seconds)
+
+Replace degrees, minutes, and seconds with the appropriate values.
+
+Functionality Overview
+
+haversine(lat1, lon1, lat2, lon2)
+	•	Calculates the great-circle distance between two points on Earth.
+	•	Parameters:
+	•	lat1, lon1: Latitude and Longitude of the first point (decimal degrees).
+	•	lat2, lon2: Latitude and Longitude of the second point (decimal degrees).
+	•	Returns: Distance in kilometers.
+
+validate_lat_lon(lat, lon)
+	•	Validates latitude and longitude values.
+	•	Parameters:
+	•	lat: Latitude in decimal degrees.
+	•	lon: Longitude in decimal degrees.
+	•	Returns: True if valid, False otherwise.
+
+dms_to_decimal(degrees, minutes, seconds)
+	•	Converts coordinates from Degrees-Minutes-Seconds (DMS) to decimal degrees.
+	•	Parameters:
+	•	degrees, minutes, seconds: Components of DMS format.
+	•	Returns: Decimal degree equivalent.
+
+load_csv(file_path)
+	•	Loads geographical data from a CSV file and validates the data.
+	•	Parameters:
+	•	file_path: Path to the CSV file.
+	•	Returns: A filtered DataFrame containing valid latitude and longitude values.
+
+find_shortest_distance(array1, array2)
+	•	Finds the shortest distance between two arrays of geographical points.
+	•	Parameters:
+	•	array1: List of tuples containing latitude and longitude (e.g., [(lat1, lon1), ...]).
+	•	array2: List of tuples containing latitude and longitude (e.g., [(lat2, lon2), ...]).
+	•	Returns: Closest pair of points and their distance in kilometers.
+
+find_shortest_distance_from_csv(file1, file2)
+	•	Finds the shortest distance between points in two CSV files.
+	•	Parameters:
+	•	file1: Path to the first CSV file.
+	•	file2: Path to the second CSV file.
+	•	Returns: Closest pair of points and their distance in kilometers.
+
+Author
+
+Shivam Goyal
+For any queries, feel free to contact me.
+
+This is formatted and ready to paste into a GitHub `README.md` file. It is concise and excludes examples while focusing on functionality, setup, and usage instructions.
