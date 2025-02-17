@@ -1,3 +1,5 @@
+Here is a properly formatted GitHub README.md file that will display correctly in your repository:
+
 Smart Home API - Assignment 2 (BUEC 530)
 
 Overview
@@ -194,3 +196,4 @@ Contributors
 
 👤 Shivam Goyal
 📌 GitHub: ShivamGoyal-1509
+
