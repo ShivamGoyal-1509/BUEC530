@@ -1,116 +1,196 @@
-# BUEC530
+Smart Home API - Assignment 2 (BUEC 530)
 
-This repository focuses on the course **EC530 (Software Engineering Principles)** for Spring 2025.
+Overview
 
----
+This repository contains the implementation of a RESTful API for a Smart Home System, designed as part of Assignment 2 for BUEC 530. The API allows users to manage houses, rooms, and IoT devices while focusing on:
+	•	Error handling & input validation
+	•	Unit testing with pytest
+	•	API failure simulation
+	•	GitHub Actions for CI/CD automation
 
-## Exercise 1: Shortest Distance Calculator Using Haversine Formula
+Table of Contents
+	•	Tech Stack
+	•	Project Structure
+	•	Installation & Setup
+	•	API Endpoints
+	•	Error Handling
+	•	Running Tests
+	•	GitHub Actions CI/CD
+	•	Contributors
 
-### Overview
+Tech Stack
+	•	Python 3.8+
+	•	FastAPI (for API development)
+	•	Pydantic (for data validation)
+	•	Uvicorn (ASGI web server)
+	•	Pytest (for unit testing)
+	•	GitHub Actions (for CI/CD automation)
 
-The file dist_final_multi_point2multi_point.py calculates the shortest distance between two sets of geographical points using the **Haversine formula**. It supports:
-- Reading geographical data from CSV files.
-- Validating latitude and longitude values.
-- Converting coordinates in Degrees-Minutes-Seconds (DMS) format to decimal degrees.
+Project Structure
 
----
+BUEC530/
+│── main.py               # Main API implementation
+│── models.py             # Data models
+│── tests/                # Unit tests
+│   ├── test_api.py
+│── requirements.txt      # Dependencies list
+│── .github/workflows/    # GitHub Actions CI/CD
+│── README.md             # API documentation
 
-### Features
-1. **CSV File Input**:
-   - Reads two CSV files containing `latitude` and `longitude` columns.
-   - Automatically assigns column names if they are missing.
+Installation & Setup
 
-2. **Validation**:
-   - Ensures latitude values are within `-90` to `90`.
-   - Ensures longitude values are within `-180` to `180`.
-   - Filters out invalid rows automatically.
+1. Clone the Repository
 
-3. **Haversine Distance Calculation**:
-   - Computes the great-circle distance between points on Earth.
+git clone https://github.com/ShivamGoyal-1509/BUEC530.git
+cd BUEC530
 
-4. **DMS to Decimal Conversion**:
-   - Converts coordinates in Degrees-Minutes-Seconds (DMS) format to decimal degrees for distance calculations.
+2. Create & Activate a Virtual Environment
 
-5. **Shortest Distance**:
-   - Finds the closest pair of points between two datasets and provides their distance in kilometers.
+python -m venv venv
+source venv/bin/activate  # On macOS/Linux
+venv\Scripts\activate  # On Windows
 
----
+3. Install Dependencies
 
-### Requirements
+pip install -r requirements.txt
 
-- **Python 3.6+**
-- Required Python Libraries:
-  - `pandas`
-  - `math`
+4. Run the API
 
-To install the required dependencies, run:
-```bash
-pip install pandas
+uvicorn main:app --reload
 
-Usage
+	•	The API will be available at http://127.0.0.1:8000
+	•	Open http://127.0.0.1:8000/docs to view Swagger UI.
 
-1. Preparing CSV Files
-	•	Ensure CSV files contain two columns: latitude and longitude.
-	•	If column names are missing, the program will automatically assign them.
+API Endpoints
 
-2. Running the Script
+1. User Management
 
-Save the Python script as shortest_distance.py, then modify and call the function:
+Method	Endpoint	Description
+POST	/users/register	Register a new user
+POST	/users/login	Authenticate a user
+GET	/users/{user_id}	Retrieve user details
+DELETE	/users/{user_id}	Delete a user
 
-closest_pair, distance = find_shortest_distance_from_csv('file1.csv', 'file2.csv')
-print(f"The closest pair of points is {closest_pair} with a distance of {distance:.2f} km.")
+Example User Data
 
-3. DMS Conversion
+{
+  "id": "12345",
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "password": "hashed_password"
+}
 
-Convert Degrees-Minutes-Seconds (DMS) to decimal degrees:
+2. House Management
 
-latitude_decimal = dms_to_decimal(degrees, minutes, seconds)
-longitude_decimal = dms_to_decimal(degrees, minutes, seconds)
+Method	Endpoint	Description
+POST	/houses	Create a new house
+GET	/houses/{house_id}	Get house details
+PUT	/houses/{house_id}	Update house details
+DELETE	/houses/{house_id}	Delete a house
 
-Replace degrees, minutes, and seconds with the appropriate values.
+Example House Data
 
-Functionality Overview
+{
+  "id": "house123",
+  "name": "My Smart Home",
+  "address": "123 Main St",
+  "owner_id": "12345"
+}
 
-haversine(lat1, lon1, lat2, lon2)
-	•	Calculates the great-circle distance between two points on Earth.
-	•	Parameters:
-	•	lat1, lon1: Latitude and Longitude of the first point (decimal degrees).
-	•	lat2, lon2: Latitude and Longitude of the second point (decimal degrees).
-	•	Returns: Distance in kilometers.
+3. Room Management
 
-validate_lat_lon(lat, lon)
-	•	Validates latitude and longitude values.
-	•	Parameters:
-	•	lat: Latitude in decimal degrees.
-	•	lon: Longitude in decimal degrees.
-	•	Returns: True if valid, False otherwise.
+Method	Endpoint	Description
+POST	/houses/{house_id}/rooms	Add a room to a house
+GET	/houses/{house_id}/rooms/{room_id}	Get room details
+PUT	/houses/{house_id}/rooms/{room_id}	Update room info
+DELETE	/houses/{house_id}/rooms/{room_id}	Remove a room
 
-dms_to_decimal(degrees, minutes, seconds)
-	•	Converts coordinates from Degrees-Minutes-Seconds (DMS) to decimal degrees.
-	•	Parameters:
-	•	degrees, minutes, seconds: Components of DMS format.
-	•	Returns: Decimal degree equivalent.
+Example Room Data
 
-load_csv(file_path)
-	•	Loads geographical data from a CSV file and validates the data.
-	•	Parameters:
-	•	file_path: Path to the CSV file.
-	•	Returns: A filtered DataFrame containing valid latitude and longitude values.
+{
+  "id": "room567",
+  "name": "Living Room",
+  "house_id": "house123"
+}
 
-find_shortest_distance(array1, array2)
-	•	Finds the shortest distance between two arrays of geographical points.
-	•	Parameters:
-	•	array1: List of tuples containing latitude and longitude (e.g., [(lat1, lon1), ...]).
-	•	array2: List of tuples containing latitude and longitude (e.g., [(lat2, lon2), ...]).
-	•	Returns: Closest pair of points and their distance in kilometers.
+4. Device Management
 
-find_shortest_distance_from_csv(file1, file2)
-	•	Finds the shortest distance between points in two CSV files.
-	•	Parameters:
-	•	file1: Path to the first CSV file.
-	•	file2: Path to the second CSV file.
-	•	Returns: Closest pair of points and their distance in kilometers.
+Method	Endpoint	Description
+POST	/rooms/{room_id}/devices	Add a device to a room
+GET	/rooms/{room_id}/devices/{device_id}	Get device details
+PUT	/rooms/{room_id}/devices/{device_id}	Update device settings
+DELETE	/rooms/{room_id}/devices/{device_id}	Remove a device
 
-Author
+Example Device Data
 
-Shivam Goyal
+{
+  "id": "device987",
+  "name": "Smart Thermostat",
+  "type": "temperature_sensor",
+  "room_id": "room567",
+  "status": "ON",
+  "temperature": 22.5
+}
+
+Error Handling
+
+Error Code	Description
+400	Bad Request - Invalid data provided
+401	Unauthorized - Incorrect credentials
+404	Not Found - Requested resource does not exist
+500	Internal Server Error - Unexpected issue
+
+Running Tests
+
+We use pytest for unit testing.
+Run the tests using:
+
+pytest tests/
+
+Example Test (in tests/test_api.py)
+
+from fastapi.testclient import TestClient
+from main import app
+
+client = TestClient(app)
+
+def test_register_user():
+    response = client.post("/users/register", json={
+        "name": "John Doe",
+        "email": "johndoe@example.com",
+        "password": "securepass"
+    })
+    assert response.status_code == 200
+
+GitHub Actions CI/CD
+
+We have automated testing using GitHub Actions.
+
+Workflow File: .github/workflows/api.yml
+
+name: API Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run Tests
+        run: pytest tests/
+
+How it Works
+	•	Runs automated tests on every push or pull request.
+	•	Ensures code stability before merging.
+
+Contributors
+
+👤 Shivam Goyal
+📌 GitHub: ShivamGoyal-1509
